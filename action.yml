@@ -1,0 +1,43 @@
+name: Deploy para Dokku
+author: Joathan
+description: Envie as alterações para o servidor Dokku para implantar automaticamente o aplicativo.
+branding:
+    icon: server
+    color: blue
+inputs:
+  PRIVATE_KEY:
+    description: Chave privada a ser usada para autenticação SSH.
+    required: true
+  PUBLIC_KEY:
+    description: Chave pública a ser usada para autenticação SSH.
+    required: true
+  PROJECT:
+    description: Nome do aplicativo (como criado no Dokku).
+    required: true
+  HOST:
+    descripion: Domínio (ou endereço IP) onde o aplicativo será implantado.
+    required: true
+  BRANCH:
+    description: Branch usada para implantar o aplicativo.
+    required: true
+    default: main
+  PROJECT_TYPE:
+    description: (Opcional) ruby - projetos Rails
+    required: false
+    default: ruby
+  POSTGRES:
+    description: (Opcional) true - Configure uma instância postgres (certifique-se de que seu aplicativo está usando a variável env padrão DATABASE_URL)
+    required: false
+    default: false
+  REDIS:
+    description: (Opcional) true - Configure uma instância redis (certifique-se de que seu aplicativo esteja usando a variável env REDIS_URL padrão)
+    required: false
+    default: false
+  REVIEW_APP:
+    description: true - Defina se a implantação gerar um novo aplicativo (com nome da branch)
+    required: true
+    default: true
+
+runs:
+  using: docker
+  image: Dockerfile
