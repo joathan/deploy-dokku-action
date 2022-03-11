@@ -17,8 +17,6 @@ chmod 600 "$SSH_PATH/dokku_rsa.pub"
 
 eval "$(ssh-agent)"
 
-echo "$INPUT_PRIVATE_KEY"
-echo "$INPUT_PUBLIC_KEY"
 echo "adding deploy key..."
 
 ssh-add "$SSH_PATH/dokku"
