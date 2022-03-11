@@ -68,6 +68,7 @@ if [ "$INPUT_REDIS" = true ]; then
 fi
 
 echo "passou aqui?"
-GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push -f root@"$INPUT_HOST":"$APP_NAME" "$INPUT_BRANCH":main
+# GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push -f root@"$INPUT_HOST":"$APP_NAME" "$INPUT_BRANCH":main
+GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push -f dokku@"$INPUT_HOST":"$APP_NAME" "$INPUT_BRANCH":master
 
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$INPUT_HOST $POST_DEPLOY_COMMAND
