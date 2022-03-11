@@ -15,8 +15,10 @@ chmod 600 "$SSH_PATH/known_hosts"
 chmod 600 "$SSH_PATH/deploy_key"
 chmod 600 "$SSH_PATH/deploy_key.pub"
 
-eval "$(ssh-agent -s)"
+eval "$(ssh-agent)"
 
+echo "$INPUT_PRIVATE_KEY"
+echo "$INPUT_PUBLIC_KEY"
 echo "adding deploy key..."
 
 ssh-add "$SSH_PATH/deploy_key"
