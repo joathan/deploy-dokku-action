@@ -7,20 +7,20 @@ SSH_PATH="$HOME/.ssh"
 mkdir -p "$SSH_PATH"
 touch "$SSH_PATH/known_hosts"
 
-echo "$PRIVATE_KEY" > "$SSH_PATH/dokku"
-echo "$PUBLIC_KEY" > "$SSH_PATH/dokku_rsa.pub"
+echo "$PRIVATE_KEY" > "$SSH_PATH/id_rsa"
+echo "$PUBLIC_KEY" > "$SSH_PATH/id_rsa.pub"
 
 chmod 700 "$SSH_PATH"
 chmod 600 "$SSH_PATH/known_hosts"
-chmod 600 "$SSH_PATH/dokku"
-chmod 600 "$SSH_PATH/dokku_rsa.pub"
+chmod 600 "$SSH_PATH/id_rsa"
+chmod 600 "$SSH_PATH/id_rsa.pub"
 
 eval "$(ssh-agent)"
 
 echo $PUBLIC_KEY | sed 's/./& /g'
 echo "adding deploy key..."
 
-ssh-add "$SSH_PATH/dokku"
+ssh-add "$SSH_PATH/id_rsa"
 
 echo "adding host address to known hosts..."
 
