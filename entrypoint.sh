@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# $NODE = echo $(node -v)
-echo "NODE VERSION $(node -v)"
+$NODE = echo "$(node -v)"
+echo "NODE VERSION $NODE"
 
 set -e
 
