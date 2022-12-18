@@ -1,6 +1,6 @@
 #!/bin/bash
 
-$NODE = echo "$(node -v)"
+$NODE = echo $(node -v)
 echo "NODE VERSION $NODE"
 
 set -e
