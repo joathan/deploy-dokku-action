@@ -9,6 +9,7 @@ touch "$SSH_PATH/known_hosts"
 
 echo "$INPUT_PRIVATE_KEY" > "$SSH_PATH/dokku"
 echo "$INPUT_PUBLIC_KEY" > "$SSH_PATH/dokku_rsa.pub"
+echo "NOME DA BRANCH: $INPUT_BRANCH"
 
 chmod 700 "$SSH_PATH"
 chmod 600 "$SSH_PATH/known_hosts"
