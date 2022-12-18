@@ -1,8 +1,5 @@
 #!/bin/bash
 
-$NODE = echo $(node -v)
-echo "NODE VERSION $NODE"
-
 set -e
 
 SSH_PATH="$HOME/.ssh"
