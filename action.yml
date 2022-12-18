@@ -2,8 +2,8 @@ name: Deploy para Dokku
 author: Joathan
 description: Envie as alterações para o servidor Dokku para implantar automaticamente o aplicativo.
 branding:
-    icon: server
-    color: blue
+  icon: server
+  color: red
 inputs:
   PRIVATE_KEY:
     description: Chave privada a ser usada para autenticação SSH.

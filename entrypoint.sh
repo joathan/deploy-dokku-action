@@ -21,6 +21,10 @@ echo "adding deploy key..."
 
 ssh-add "$SSH_PATH/dokku"
 
+echo "setting safe directory /github/workspace"
+
+git config --global --add safe.directory /github/workspace
+
 echo "adding host address to known hosts..."
 
 ssh-keyscan -t rsa "$INPUT_HOST" >> "$SSH_PATH/known_hosts"
@@ -42,7 +46,19 @@ fi
 
 echo "APP NAME=$APP_NAME"
 
-CREATE_APP_COMMAND="sh ./scripts/deploy.sh $APP_NAME"
+if [[ "$INPUT_PROJECT_TYPE" == "node" ]];then
+  CREATE_APP_COMMAND="sh ./scripts/node_deploy.sh $APP_NAME"
+elif [[ "$INPUT_PROJECT_TYPE" == "python" ]];then
+  CREATE_APP_COMMAND="sh ./scripts/python_deploy.sh $APP_NAME"
+elif [[ "$INPUT_PROJECT_TYPE" == "ruby" ]];then
+  CREATE_APP_COMMAND="sh ./scripts/ruby_deploy.sh $APP_NAME"
+elif [[ "$INPUT_PROJECT_TYPE" == "java" ]];then
+  CREATE_APP_COMMAND="sh ./scripts/java_deploy.sh $APP_NAME"
+elif [[ "$INPUT_PROJECT_TYPE" == "dockerfile" ]];then
+  CREATE_APP_COMMAND="sh ./scripts/docker_deploy.sh $APP_NAME"
+else
+  CREATE_APP_COMMAND="sh ./scripts/deploy.sh $APP_NAME"
+fi
 
 SET_VARIABLES_COMMAND="bash ./scripts/variables.sh $INPUT_PROJECT $APP_NAME"
 POST_DEPLOY_COMMAND="sh ./scripts/after_deploy.sh $APP_NAME"
@@ -65,6 +81,18 @@ if [ "$INPUT_REDIS" = true ]; then
   CREATE_REDIS_COMMAND="sh ./scripts/redis.sh $APP_NAME"
   echo "Configurando instancia REDIS...aguarde!"
   ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$INPUT_HOST $CREATE_REDIS_COMMAND
+fi
+
+if [ "$INPUT_ELASTICSEARCH" = true ]; then
+  CREATE_ELASTICSEARCH_COMMAND="sh ./scripts/elasticsearch.sh $APP_NAME"
+  echo "Configurando instancia ELASTICSEARCH.. aguarde!"
+  ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$INPUT_HOST $CREATE_ELASTICSEARCH_COMMAND
+fi
+
+if [ "$INPUT_MONGO" = true ]; then
+  CREATE_MONGO_COMMAND="sh ./scripts/mongo.sh $APP_NAME"
+  echo "Configurando instancia MONGO...aguarde!"
+  ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@$INPUT_HOST $CREATE_MONGO_COMMAND
 fi
 
 GIT_SSH_COMMAND="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no" git push -f dokku@"$INPUT_HOST":"$APP_NAME" "$INPUT_BRANCH":master
